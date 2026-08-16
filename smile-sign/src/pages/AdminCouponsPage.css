@@ -1,0 +1,7 @@
+/* Uses global admin styles from AdminProductsPage.css */
+@import './AdminProductsPage.css';
+
+.admin-coupons-page {
+  flex: 1;
+  background: var(--surface-2);
+}

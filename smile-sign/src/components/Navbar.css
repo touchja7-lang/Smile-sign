@@ -1,0 +1,288 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Admin theme — unified with brand */
+.navbar--admin {
+  background: #fff; /* Keep it white like the rest of the app */
+}
+.navbar--admin .navbar__logo-mark {
+  background: var(--brand);
+}
+
+/* Admin badge next to logo */
+.navbar__admin-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  background: var(--brand);
+  color: #fff;
+  border-radius: var(--r-full);
+  padding: 2px 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Admin avatar */
+.navbar__avatar--admin {
+  background: var(--brand) !important;
+}
+
+/* Role badge in dropdown */
+.navbar__dropdown-role-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--brand);
+  color: #fff;
+  border-radius: var(--r-full);
+  padding: 1px 8px;
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* Danger button (logout) */
+.navbar__dropdown-item--danger {
+  color: #ef4444 !important;
+}
+.navbar__dropdown-item--danger:hover {
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: 60px;
+}
+
+/* Logo */
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.navbar__logo-mark {
+  width: 34px;
+  height: 34px;
+  background: var(--brand);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navbar__logo-smile {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  line-height: 1;
+}
+.navbar__logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.navbar__logo-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--brand);
+  letter-spacing: -0.01em;
+}
+.navbar__logo-product {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.08em;
+}
+
+/* Nav links */
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-left: var(--sp-4);
+  flex: 1;
+}
+.navbar__link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--r-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.navbar__link:hover {
+  background: var(--brand-lighter);
+  color: var(--brand);
+}
+.navbar__link--active {
+  background: var(--brand-light);
+  color: var(--brand);
+}
+
+/* Right area */
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-left: auto;
+}
+.navbar__auth {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* User menu */
+.navbar__user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px 10px;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.navbar__user:hover { background: var(--surface-2); }
+
+.navbar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-full);
+  background: var(--brand);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.navbar__user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.navbar__user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.navbar__user-level {
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+}
+.navbar__chevron {
+  color: var(--ink-faint);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.navbar__chevron.open { transform: rotate(180deg); }
+
+/* Dropdown */
+.navbar__user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  min-width: 220px;
+  padding: var(--sp-3);
+  z-index: var(--z-dropdown);
+  animation: fadeUp var(--dur-mid) var(--ease-out) both;
+  cursor: default;
+}
+.navbar__dropdown-header { padding: var(--sp-2) var(--sp-3); }
+.navbar__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: 8px var(--sp-3);
+  border-radius: var(--r-md);
+  font-size: 0.875rem;
+  color: var(--ink);
+  text-align: left;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.navbar__dropdown-item:hover { background: var(--surface-2); }
+
+/* Mobile hamburger */
+.navbar__hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  color: var(--ink);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.navbar__hamburger:hover { background: var(--surface-2); }
+
+/* Mobile menu */
+.navbar__mobile-menu {
+  position: fixed;
+  top: 60px;
+  left: 0; right: 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  padding: var(--sp-4) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  z-index: var(--z-dropdown);
+}
+.navbar__mobile-link {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 10px var(--sp-3);
+  border-radius: var(--r-md);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.navbar__mobile-link:hover { background: var(--surface-2); }
+
+@media (max-width: 768px) {
+  .navbar__nav { display: none; }
+  .navbar__auth { display: none; }
+  .navbar__user-info { display: none; }
+  .navbar__hamburger { display: flex; }
+}
+
+/* ── Admin Portal nav link highlight ── */
+.navbar__link--admin {
+  color: #8b5cf6 !important;
+  font-weight: 600;
+}
+.navbar__link--admin:hover {
+  background: color-mix(in srgb, #8b5cf6 10%, transparent) !important;
+}
+.navbar__dropdown-item--admin {
+  color: #8b5cf6 !important;
+  font-weight: 600;
+}
+.navbar__dropdown-item--admin:hover {
+  background: color-mix(in srgb, #8b5cf6 10%, transparent);
+}

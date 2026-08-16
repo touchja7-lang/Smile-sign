@@ -1,0 +1,97 @@
+.impeccable-quotation-page {
+  flex: 1;
+  background: var(--surface-2);
+}
+
+.quotation-toolbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--sp-3) 0;
+  position: sticky;
+  top: 60px;
+  z-index: var(--z-sticky);
+}
+
+.impeccable-doc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: var(--sp-12);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.impeccable-doc__header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.impeccable-doc__meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--sp-10);
+}
+
+.impeccable-doc__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--sp-10);
+}
+
+.impeccable-doc__table th {
+  border-bottom: 1px solid var(--ink);
+  padding: var(--sp-3) 0;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.impeccable-doc__table td {
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.impeccable-doc__table tfoot td {
+  padding: var(--sp-2) 0;
+  border-bottom: none;
+}
+
+.impeccable-doc__total td {
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--ink);
+}
+
+.impeccable-doc__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px dashed var(--border);
+  padding-top: var(--sp-6);
+}
+
+.impeccable-doc__notes ul {
+  padding-left: var(--sp-4);
+  margin-top: var(--sp-1);
+}
+
+.impeccable-doc__signature {
+  width: 200px;
+}
+.impeccable-doc__signature .line {
+  height: 1px;
+  background: var(--ink);
+  margin-bottom: var(--sp-2);
+}
+
+@media print {
+  .no-print, .navbar { display: none !important; }
+  .impeccable-quotation-page { background: #fff; }
+  .impeccable-doc { border: none; padding: 2cm !important; max-width: none; }
+  body { background: #fff; }
+  @page { margin: 0; }
+}
