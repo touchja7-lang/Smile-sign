@@ -227,7 +227,7 @@ export default function ProfilePage({ user, onLogin }) {
                 </div>
                 <div className="form-group">
                   <label htmlFor="profile-phone" className="form-label">
-                    <Phone size={13} /> เบอร์โทรศัพท์
+                    เบอร์โทรศัพท์
                   </label>
                   <input id="profile-phone" name="phone" type="tel" className="form-input"
                     placeholder="08X-XXX-XXXX" value={form.phone} onChange={handleChange} />
@@ -248,7 +248,7 @@ export default function ProfilePage({ user, onLogin }) {
                 </div>
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                   <label htmlFor="profile-address" className="form-label">
-                    <MapPin size={13} /> ที่อยู่ร้าน (สำหรับใบเสนอราคา)
+                    ที่อยู่ร้าน (สำหรับใบเสนอราคา)
                   </label>
                   <textarea id="profile-address" name="address" className="form-textarea" rows={2}
                     placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"
