@@ -32,7 +32,7 @@ const frontendDist = path.join(__dirname, '../smile-sign/dist');
 app.use(express.static(frontendDist));
 
 // Catch-all: ส่ง index.html กลับสำหรับทุก route ที่ไม่ใช่ API (React Router)
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(frontendDist, 'index.html'));
 });
 // ─────────────────────────────────────────────────────────────────────────────
