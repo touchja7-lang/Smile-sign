@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const connectDB = require('./config/db');
 
 // Import Routes
@@ -19,12 +20,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Base Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/coupons', couponRoutes);
+
+// ── Serve Frontend (React build) ──────────────────────────────────────────────
+const frontendDist = path.join(__dirname, '../smile-sign/dist');
+app.use(express.static(frontendDist));
+
+// Catch-all: ส่ง index.html กลับสำหรับทุก route ที่ไม่ใช่ API (React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendDist, 'index.html'));
+});
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Global Error Handler
 app.use((err, req, res, next) => {

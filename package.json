@@ -1,0 +1,14 @@
+{
+  "name": "smile-sign-app",
+  "version": "1.0.0",
+  "description": "Smile Sign - Full Stack App",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "cd smile-sign && npm install && npm run build",
+    "install:all": "cd backend && npm install && cd ../smile-sign && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
