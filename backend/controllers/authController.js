@@ -44,6 +44,7 @@ const register = async (req, res, next) => {
         _id: user.id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
         role: user.role,
         sellerLevel: user.sellerData.sellerLevel,
         token: generateToken(user._id),
@@ -72,6 +73,7 @@ const login = async (req, res, next) => {
         _id: user.id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
         role: user.role,
         sellerLevel: user.sellerData.sellerLevel,
         token: generateToken(user._id),
@@ -117,10 +119,11 @@ const updateProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
-    const { name, phone, shopName, address } = req.body;
+    const { name, phone, shopName, address, avatar } = req.body;
 
     if (name)  user.name  = name;
     if (phone) user.phone = phone;
+    if (avatar !== undefined) user.avatar = avatar;
     if (shopName !== undefined) user.sellerData.shopDetails.shopName = shopName;
     if (address  !== undefined) user.sellerData.shopDetails.address  = address;
 
@@ -138,6 +141,7 @@ const updateProfile = async (req, res, next) => {
       name: updated.name,
       email: updated.email,
       phone: updated.phone,
+      avatar: updated.avatar,
       role: updated.role,
       sellerLevel: updated.sellerData.sellerLevel,
       shopDetails: updated.sellerData.shopDetails,

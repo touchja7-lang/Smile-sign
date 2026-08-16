@@ -88,3 +88,33 @@ export async function uploadArtwork(file, context = {}) {
 
   return publicUrlData.publicUrl
 }
+
+/**
+ * Upload a profile avatar to Supabase Storage
+ */
+export async function uploadAvatar(file, userId) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Supabase configuration is missing.')
+  }
+
+  const fileExt  = file.name.split('.').pop().toLowerCase().replace(/[^a-z0-9]/g, '')
+  const fileName = `${userId}_${Date.now()}.${fileExt}`
+  const filePath = `avatars/${fileName}`
+
+  const { error } = await supabase.storage
+    .from('artworks') // Using the same public bucket
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: true
+    })
+
+  if (error) {
+    throw new Error('อัปโหลดรูปโปรไฟล์ล้มเหลว: ' + error.message)
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from('artworks')
+    .getPublicUrl(filePath)
+
+  return publicUrlData.publicUrl
+}

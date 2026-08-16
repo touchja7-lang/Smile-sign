@@ -1,17 +1,27 @@
-import { useState, useEffect } from 'react'
-import { User, Mail, Phone, Store, MapPin, Lock, Save, CheckCircle, Loader2 } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { User, Mail, Phone, Store, MapPin, Lock, Save, CheckCircle, Loader2, Camera } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getProfile, updateProfile } from '../api'
+import { uploadAvatar } from '../supabaseClient'
 import './ProfilePage.css'
 
-function Avatar({ name, size = 72 }) {
+function Avatar({ name, avatarUrl, size = 72, onClick, uploading }) {
   return (
     <div
-      className="profile-avatar"
-      style={{ width: size, height: size, fontSize: size * 0.4 }}
-      aria-label={name}
+      className="profile-avatar-wrapper"
+      style={{ width: size, height: size }}
+      onClick={onClick}
     >
-      {name?.charAt(0)?.toUpperCase() || '?'}
+      {avatarUrl ? (
+        <img src={avatarUrl} alt={name} className="profile-avatar-img" />
+      ) : (
+        <div className="profile-avatar-fallback" style={{ fontSize: size * 0.4 }}>
+          {name?.charAt(0)?.toUpperCase() || '?'}
+        </div>
+      )}
+      <div className="profile-avatar-overlay">
+        {uploading ? <Loader2 className="spin" size={24} /> : <Camera size={24} />}
+      </div>
     </div>
   )
 }
@@ -27,12 +37,14 @@ export default function ProfilePage({ user, onLogin }) {
   const [profile, setProfile]   = useState(null)
   const [loading, setLoading]   = useState(true)
   const [saving,  setSaving]    = useState(false)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [success, setSuccess]   = useState(false)
   const [error,   setError]     = useState('')
+  const fileInputRef = useRef(null)
 
   // form state
   const [form, setForm] = useState({
-    name: '', phone: '', shopName: '', address: '', password: '', confirmPassword: '',
+    name: '', phone: '', shopName: '', address: '', password: '', confirmPassword: '', avatar: ''
   })
 
   useEffect(() => {
@@ -42,6 +54,7 @@ export default function ProfilePage({ user, onLogin }) {
         setForm({
           name:     data.name     || '',
           phone:    data.phone    || '',
+          avatar:   data.avatar   || '',
           shopName: data.sellerData?.shopDetails?.shopName || '',
           address:  data.sellerData?.shopDetails?.address  || '',
           password: '', confirmPassword: '',
@@ -57,6 +70,34 @@ export default function ProfilePage({ user, onLogin }) {
     setSuccess(false)
   }
 
+  async function handleAvatarChange(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingAvatar(true)
+    setError('')
+    try {
+      // Create object URL for immediate preview (optimistic UI)
+      const previewUrl = URL.createObjectURL(file)
+      setForm(prev => ({ ...prev, avatar: previewUrl }))
+      
+      const publicUrl = await uploadAvatar(file, profile._id)
+      setForm(prev => ({ ...prev, avatar: publicUrl }))
+      
+      // Auto save after upload
+      const updated = await updateProfile({ avatar: publicUrl })
+      onLogin(updated) // Update session
+      toast.success('อัปเดตรูปโปรไฟล์เรียบร้อย')
+    } catch (err) {
+      setError(err.message || 'อัปโหลดรูปไม่สำเร็จ')
+      toast.error(err.message || 'อัปโหลดรูปไม่สำเร็จ')
+      // Revert preview
+      setForm(prev => ({ ...prev, avatar: profile.avatar }))
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+
   async function handleSave(e) {
     e.preventDefault()
     if (form.password && form.password !== form.confirmPassword) {
@@ -69,6 +110,7 @@ export default function ProfilePage({ user, onLogin }) {
       const payload = {
         name:     form.name,
         phone:    form.phone,
+        avatar:   form.avatar,
         shopName: form.shopName,
         address:  form.address,
       }
@@ -107,7 +149,20 @@ export default function ProfilePage({ user, onLogin }) {
         {/* ── Left card: identity ──────────────────────── */}
         <aside className="profile-sidebar animate-fade-up">
           <div className="profile-sidebar__top">
-            <Avatar name={profile?.name} size={80} />
+            <input 
+              type="file" 
+              accept="image/*" 
+              style={{ display: 'none' }} 
+              ref={fileInputRef}
+              onChange={handleAvatarChange}
+            />
+            <Avatar 
+              name={form.name || profile?.name} 
+              avatarUrl={form.avatar} 
+              size={100} 
+              uploading={uploadingAvatar}
+              onClick={() => fileInputRef.current?.click()}
+            />
             <h2 className="profile-sidebar__name">{profile?.name}</h2>
             <p className="profile-sidebar__email">{profile?.email}</p>
 

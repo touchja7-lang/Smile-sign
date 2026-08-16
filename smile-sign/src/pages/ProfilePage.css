@@ -42,8 +42,34 @@
   background: linear-gradient(180deg, var(--brand-lighter) 0%, var(--surface) 100%);
 }
 
-.profile-avatar {
+.profile-avatar-wrapper {
+  position: relative;
   border-radius: 50%;
+  margin-bottom: var(--sp-5);
+  cursor: pointer;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--brand) 20%, transparent);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--brand) 30%, transparent);
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar-fallback {
+  width: 100%;
+  height: 100%;
   background: var(--brand);
   color: #fff;
   font-family: var(--font-display);
@@ -51,9 +77,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  margin-bottom: var(--sp-4);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--brand) 30%, transparent);
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.profile-avatar-wrapper:hover .profile-avatar-overlay {
+  opacity: 1;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
 }
 
 .profile-sidebar__name {
@@ -120,15 +163,17 @@
 .profile-section__heading {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--ink-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: var(--sp-4);
+  gap: 10px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--sp-5);
   padding-bottom: var(--sp-3);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--surface-2);
+}
+
+.profile-section__heading svg {
+  color: var(--brand);
 }
 
 .profile-form-grid {
